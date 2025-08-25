@@ -1,0 +1,33 @@
+{
+    "name": "corbocal/discord-api",
+    "description": "An API/Webhook wrapper for Discord.",
+    "type": "library",
+    "license": "GNU GPL v3.0",
+    "version": "0.1",
+    "authors": [
+        {
+            "name": "corbocal",
+            "email": "monkey-factory@protonmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.4",
+        "guzzlehttp/guzzle": "^7.10"
+    },
+    "require-dev": {
+        "codeception/codeception": "^5.0",
+        "phpstan/phpstan": "^2.0",
+        "squizlabs/php_codesniffer": "^3.10",
+        "symfony/var-dumper": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Corbocal\\DiscordApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Corbocal\\DiscordApi\\Tests\\": "tests/"
+        }
+    }
+}
