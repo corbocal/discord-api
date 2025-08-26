@@ -6,6 +6,7 @@ namespace Corbocal\DiscordApi\Client;
 
 use Corbocal\DiscordApi\Exceptions\DiscordException;
 use Corbocal\DiscordApi\Exceptions\HttpClientException;
+use Corbocal\DiscordApi\Resources\ResourceFilesInterface;
 use Corbocal\DiscordApi\Resources\ResourceInterface;
 use Exception;
 use GuzzleHttp\Client as HttpClient;
@@ -13,6 +14,9 @@ use GuzzleHttp\Psr7\Utils;
 
 abstract class AbstractClient
 {
+    /**
+     * @var array<string,string>
+     */
     protected array $headers;
 
     public function __construct(
@@ -23,14 +27,14 @@ abstract class AbstractClient
     /**
      * @param string $method
      * @param string $uri
-     * @param ?ResourceInterface $payload
+     * @param ResourceInterface|ResourceFilesInterface|null $payload
      *
      * @throws DiscordException When the request could be requestd but Discord returned an Http error code
      * @throws HttpClientException When the request could not be requestd
      *
      * @return void
      */
-    private function request(string $method, string $uri, ?ResourceInterface $payload = null): void
+    private function request(string $method, string $uri, ResourceInterface|ResourceFilesInterface|null $payload = null): void
     {
         $uri = ltrim($uri, "/");
         try {
@@ -60,35 +64,41 @@ abstract class AbstractClient
         }
     }
 
-    private function handlePayload(?ResourceInterface $resource): array
+    /**
+     *
+     * @return array<mixed>
+     */
+    private function handlePayload(ResourceInterface|ResourceFilesInterface|null $resource): array
     {
         $payload = [];
-        if ($resource->hasFiles()) {
-            $result = [];
-            $iterator = 0;
-            $files = $resource->getFiles();
-            foreach ($files as $file) {
-                $extension = substr($file->getFullPath(), strripos($file->getFullPath(), "."));
-                $upload = [
-                    'name' => "files[$iterator]",
-                    'filename' => rtrim($file->getFilename(), $extension) . $extension,
-                    'contents' => Utils::tryFopen($file->getFullPath(), 'r'),
-                ];
-                $iterator++;
-                $result[] = $upload;
-            }
+        if ($resource !== null) {
+            if ($resource instanceof ResourceFilesInterface && $resource->hasFiles()) {
+                $result = [];
+                $iterator = 0;
+                $files = $resource->getFiles();
+                foreach ($files ?? [] as $file) {
+                    $extension = substr($file->getFullPath(), strripos($file->getFullPath(), ".") ?: 0);
+                    $upload = [
+                        'name' => "files[$iterator]",
+                        'filename' => rtrim($file->getFilename() ?? "file$iterator", $extension) . $extension,
+                        'contents' => Utils::tryFopen($file->getFullPath(), 'r'),
+                    ];
+                    $iterator++;
+                    $result[] = $upload;
+                }
 
-            if (!empty($resource->toArray())) {
-                $result[] = [
-                    'name' => 'payload_json',
-                    'contents' => $resource->toJson()
-                ];
+                if (!empty($resource->toArray())) {
+                    $result[] = [
+                        'name' => 'payload_json',
+                        'contents' => $resource->toJson()
+                    ];
+                }
+                $payload['multipart'] = $result;
+            } else {
+                $payload['json'] = $resource->toArray();
             }
-
-            $payload['multipart'] = $result;
-        } else {
-            $payload['json'] = $resource->toArray();
         }
+
 
         return $payload;
     }
@@ -114,27 +124,56 @@ abstract class AbstractClient
         return $this;
     }
 
+    /**
+     * @param string $uri
+     * @param array<mixed> $queryStringParams
+     * @return void
+     */
     protected function get(string $uri, array $queryStringParams = []): void
     {
         $this->request("GET", $uri);
     }
 
-    protected function post(string $uri, ?ResourceInterface $payload = null, array $queryStringParams = []): void
+    /**
+     * @param string $uri
+     * @param ResourceInterface|ResourceFilesInterface|null $payload
+     * @param array<mixed> $queryStringParams
+     * @return void
+     */
+    protected function post(string $uri, ResourceInterface|ResourceFilesInterface|null $payload = null, array $queryStringParams = []): void
     {
         $this->request("POST", $uri, $payload);
     }
 
-    protected function patch(string $uri, ?ResourceInterface $payload = null, array $queryStringParams = []): void
+    /**
+     * @param string $uri
+     * @param ResourceInterface|ResourceFilesInterface|null $payload
+     * @param array<mixed> $queryStringParams
+     * @return void
+     */
+    protected function patch(string $uri, ResourceInterface|ResourceFilesInterface|null $payload = null, array $queryStringParams = []): void
     {
         $this->request("PATCH", $uri, $payload);
     }
 
-    protected function put(string $uri, ?ResourceInterface $payload = null, array $queryStringParams = []): void
+    /**
+     * @param string $uri
+     * @param ResourceInterface|ResourceFilesInterface|null $payload
+     * @param array<mixed> $queryStringParams
+     * @return void
+     */
+    protected function put(string $uri, ResourceInterface|ResourceFilesInterface|null $payload = null, array $queryStringParams = []): void
     {
         $this->request("PUT", $uri, $payload);
     }
 
-    protected function delete(string $uri, ?ResourceInterface $payload = null, array $queryStringParams = []): void
+    /**
+     * @param string $uri
+     * @param ResourceInterface|ResourceFilesInterface|null $payload
+     * @param array<mixed> $queryStringParams
+     * @return void
+     */
+    protected function delete(string $uri, ResourceInterface|ResourceFilesInterface|null $payload = null, array $queryStringParams = []): void
     {
         $this->request("DELETE", $uri, $payload);
     }

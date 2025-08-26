@@ -10,14 +10,14 @@ use Corbocal\DiscordApi\Validator\Validator;
 class File extends AbstractResource
 {
     public function __construct(
-        protected string $filename,
-        protected string $fullpath
+        protected string $fullpath,
+        protected ?string $filename = null
     ) {
         Validator::fileExists($fullpath);
-        $this->fullpath = realpath($fullpath);
+        $this->fullpath = (string) realpath($fullpath);
     }
 
-    public function getFilename(): string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }

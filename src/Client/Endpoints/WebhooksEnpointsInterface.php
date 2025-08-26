@@ -13,5 +13,5 @@ interface WebhooksEnpointsInterface
         ?bool $wait = null,
         ?string $threadId = null,
         ?bool $withComponents = null
-    );
+    ): void;
 }

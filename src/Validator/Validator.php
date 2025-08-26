@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Corbocal\DiscordApi\Validator;
 
-use Corbocal\DiscordApi\Resources\Enums\EmbedTypeEnums;
 use Corbocal\DiscordApi\Exceptions\ValidationException;
-use Corbocal\DiscordApi\Resources\Classes\ObjectCollection;
+use Corbocal\DiscordApi\Resources\Classes\ResourceCollection;
 use Corbocal\DiscordApi\Resources\Common\Embed;
+use Corbocal\DiscordApi\Resources\Common\Field;
+use Corbocal\DiscordApi\Resources\Common\File;
+use Corbocal\DiscordApi\Resources\Enums\EmbedTypeEnums;
+use Corbocal\DiscordApi\Resources\ResourceInterface;
 
 class Validator
 {
@@ -46,7 +49,7 @@ class Validator
         }
     }
 
-    public static function webhookName(?string $name)
+    public static function webhookName(?string $name): void
     {
         if ($name === null) {
             return;
@@ -57,7 +60,7 @@ class Validator
         }
     }
 
-    public static function color(?string $color)
+    public static function color(?string $color): void
     {
         if ($color === null) {
             return;
@@ -68,7 +71,14 @@ class Validator
         }
     }
 
-    public static function filesMaxNumber(?ObjectCollection $files): void
+    /**
+     * @param ?ResourceCollection<int, File> $files
+     *
+     * @throws ValidationException
+     *
+     * @return void
+     */
+    public static function filesMaxNumber(?ResourceCollection $files): void
     {
         if ($files === null) {
             return;
@@ -79,14 +89,25 @@ class Validator
         }
     }
 
-    public static function fileExists(string $fullpath): void
+    public static function fileExists(?string $fullpath): void
     {
+        if ($fullpath === null) {
+            return;
+        }
+
         if (realpath($fullpath) === false || !is_file($fullpath)) {
             throw new ValidationException("The file $fullpath does not exist.");
         }
     }
 
-    public static function embedMaxNumber(?ObjectCollection $embeds): void
+    /**
+     * @param ?ResourceCollection<int, Embed> $embeds
+     *
+     * @throws ValidationException
+     *
+     * @return void
+     */
+    public static function embedMaxNumber(?ResourceCollection $embeds): void
     {
         if ($embeds === null) {
             return;
@@ -118,7 +139,14 @@ class Validator
         }
     }
 
-    public static function fieldsdMaxNumberInEmbed(?ObjectCollection $fields): void
+    /**
+     * @param ?ResourceCollection<int, Field> $fields
+     *
+     * @throws ValidationException
+     *
+     * @return void
+     */
+    public static function fieldsdMaxNumberInEmbed(?ResourceCollection $fields): void
     {
         if ($fields === null) {
             return;

@@ -21,22 +21,21 @@ class ApiClient extends AbstractClient
     }
 
     public function createMessage(
-        MessageInterface $message,
-        string|int $channelId = null,
+        MessageInterface $message
     ): void {
         // $endpoint = $this->formatEndpoint(EndpointsEnum::CREATE_MESSAGE, strval($channelId));
         // $this->post($endpoint, $message->getPayload());
     }
 
     public function deleteMessage(
-    //     string|int $channelId = null,
-    //     string|int $messageId = null,
+        //     string|int $channelId = null,
+        //     string|int $messageId = null,
     ): void {
-    //     $endpoint = $this->formatEndpoint(
-    //         EndpointsEnum::DELETE_MESSAGE,
-    //         strval($channelId),
-    //         strval($messageId)
-    //     );
+        //     $endpoint = $this->formatEndpoint(
+        //         EndpointsEnum::DELETE_MESSAGE,
+        //         strval($channelId),
+        //         strval($messageId)
+        //     );
         // $this->delete($endpoint);
     }
 }

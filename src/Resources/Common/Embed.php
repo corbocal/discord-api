@@ -6,16 +6,16 @@ namespace Corbocal\DiscordApi\Resources\Common;
 
 use Corbocal\DiscordApi\Resources\Enums\EmbedTypeEnums;
 use Corbocal\DiscordApi\Resources\AbstractResource;
-use Corbocal\DiscordApi\Resources\Classes\ObjectCollection;
+use Corbocal\DiscordApi\Resources\Classes\ResourceCollection;
 use Corbocal\DiscordApi\Validator\Validator;
 use DateTimeInterface;
 
 class Embed extends AbstractResource
 {
     /**
-     * @var ?ObjectCollection<Field>
+     * @var ?ResourceCollection<int, Field>
      */
-    protected ?ObjectCollection $fields = null;
+    protected ?ResourceCollection $fields = null;
 
     public function __construct(
         protected ?string $title = null,
@@ -30,11 +30,12 @@ class Embed extends AbstractResource
         // protected ?string $video,
         // protected ?string $provider,
         // protected ?string $author,
-
-        // que des objets à créer
+        // Objects to create
     ) {
         Validator::color($color);
-        $this->color = (string) hexdec(ltrim($color, "#"));
+        if ($color !== null) {
+            $this->color = (string) hexdec(ltrim($color, "#"));
+        }
     }
 
     public function getType(): ?EmbedTypeEnums
@@ -46,7 +47,7 @@ class Embed extends AbstractResource
     {
         Validator::fieldsdMaxNumberInEmbed($this->fields);
         if ($this->fields === null) {
-            $this->fields = new ObjectCollection();
+            $this->fields = new ResourceCollection();
         }
         $this->fields->append($field);
 
