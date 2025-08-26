@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Corbocal\DiscordApi\Resources;
 
-use Corbocal\DiscordApi\Resources\Common\FileDto;
+use Corbocal\DiscordApi\Resources\Common\File;
 
 interface ResourceInterface
 {
@@ -18,7 +18,7 @@ interface ResourceInterface
     public function hasFiles(): bool;
 
     /**
-     * @return FileDto[]
+     * @return File[]
      */
     public function getFiles(): ?array;
 }

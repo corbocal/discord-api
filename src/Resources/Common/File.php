@@ -7,7 +7,7 @@ namespace Corbocal\DiscordApi\Resources\Common;
 use Corbocal\DiscordApi\Resources\AbstractResource;
 use Corbocal\DiscordApi\Validator\Validator;
 
-class FileDto extends AbstractResource
+class File extends AbstractResource
 {
     public function __construct(
         protected string $filename,

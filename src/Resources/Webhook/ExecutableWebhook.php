@@ -7,31 +7,31 @@ namespace Corbocal\DiscordApi\Resources\Webhook;
 use Corbocal\DiscordApi\Exceptions\ValidationException;
 use Corbocal\DiscordApi\Resources\AbstractResource;
 use Corbocal\DiscordApi\Resources\Classes\ObjectCollection;
-use Corbocal\DiscordApi\Resources\Common\AllowedMentionsDto;
-use Corbocal\DiscordApi\Resources\Common\ComponentDto;
-use Corbocal\DiscordApi\Resources\Common\EmbedDto;
-use Corbocal\DiscordApi\Resources\Common\FileDto;
-use Corbocal\DiscordApi\Resources\Poll\PollDto;
+use Corbocal\DiscordApi\Resources\Common\AllowedMentions;
+use Corbocal\DiscordApi\Resources\Common\Component;
+use Corbocal\DiscordApi\Resources\Common\Embed;
+use Corbocal\DiscordApi\Resources\Common\File;
+use Corbocal\DiscordApi\Resources\Poll\Poll;
 use Corbocal\DiscordApi\Validator\Validator;
 
-class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInterface
+class ExecutableWebhook extends AbstractResource implements WebhookResourceInterface
 {
     protected ?string $content = null;
 
     /**
-     * @var ?ObjectCollection<EmbedDto>
+     * @var ?ObjectCollection<Embed>
      */
     protected ?ObjectCollection $embeds = null;
 
     /**
-     * @var ?ObjectCollection<FileDto>
+     * @var ?ObjectCollection<File>
      */
     protected ?ObjectCollection $files = null;
 
-    protected ?PollDto $poll = null;
+    protected ?Poll $poll = null;
 
     /**
-     * @var ComponentDto[]
+     * @var Component[]
      */
     protected ?array $components = null;
 
@@ -39,7 +39,7 @@ class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInter
         protected ?string $username = null,
         protected ?string $avatarUrl = null,
         protected ?array $attachments = null,
-        protected ?AllowedMentionsDto $allowedMentions = null,
+        protected ?AllowedMentions $allowedMentions = null,
         protected ?bool $tts = null,
         protected ?int $flags = null,
         protected ?string $treadName = null,
@@ -68,7 +68,7 @@ class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInter
         return $this;
     }
 
-    public function addEmbed(EmbedDto $embed): self
+    public function addEmbed(Embed $embed): self
     {
         Validator::embedTypeIsRichForWebhook($embed);
         Validator::embedMaxNumber($this->embeds);
@@ -80,7 +80,7 @@ class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInter
         return $this;
     }
 
-    public function withEmbeds(EmbedDto ...$embeds): self
+    public function withEmbeds(Embed ...$embeds): self
     {
         foreach ($embeds as $embed) {
             $this->addEmbed($embed);
@@ -89,7 +89,7 @@ class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInter
         return $this;
     }
 
-    public function getLastEmbed(): ?EmbedDto
+    public function getLastEmbed(): ?Embed
     {
         $result = null;
         if (!empty($this->embeds)) {
@@ -99,7 +99,7 @@ class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInter
         return $result;
     }
 
-    public function addFile(FileDto $file): self
+    public function addFile(File $file): self
     {
         Validator::filesMaxNumber($this->files);
         if ($this->files === null) {
@@ -110,7 +110,7 @@ class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInter
         return $this;
     }
 
-    public function withFiles(FileDto ...$files): self
+    public function withFiles(File ...$files): self
     {
         foreach ($files as $file) {
             $this->addFile($file);
@@ -133,7 +133,7 @@ class ExecuteWebhookDto extends AbstractResource implements WebhookResourceInter
     //     return $this;
     // }
 
-    // public function withComponents(ComponentDto ...$components): self
+    // public function withComponents(Component ...$components): self
     // {
     //     $this->components = $components;
 

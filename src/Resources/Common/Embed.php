@@ -10,10 +10,10 @@ use Corbocal\DiscordApi\Resources\Classes\ObjectCollection;
 use Corbocal\DiscordApi\Validator\Validator;
 use DateTimeInterface;
 
-class EmbedDto extends AbstractResource
+class Embed extends AbstractResource
 {
     /**
-     * @var ?ObjectCollection<FieldDto>
+     * @var ?ObjectCollection<Field>
      */
     protected ?ObjectCollection $fields = null;
 
@@ -42,7 +42,7 @@ class EmbedDto extends AbstractResource
         return $this->type;
     }
 
-    public function addField(FieldDto $field): self
+    public function addField(Field $field): self
     {
         Validator::fieldsdMaxNumberInEmbed($this->fields);
         if ($this->fields === null) {

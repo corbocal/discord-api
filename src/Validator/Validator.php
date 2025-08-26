@@ -7,7 +7,7 @@ namespace Corbocal\DiscordApi\Validator;
 use Corbocal\DiscordApi\Resources\Enums\EmbedTypeEnums;
 use Corbocal\DiscordApi\Exceptions\ValidationException;
 use Corbocal\DiscordApi\Resources\Classes\ObjectCollection;
-use Corbocal\DiscordApi\Resources\Common\EmbedDto;
+use Corbocal\DiscordApi\Resources\Common\Embed;
 
 class Validator
 {
@@ -97,7 +97,7 @@ class Validator
         }
     }
 
-    public static function embedTypeIsRichForWebhook(EmbedDto $embed): void
+    public static function embedTypeIsRichForWebhook(Embed $embed): void
     {
         if ($embed->getType() !== EmbedTypeEnums::RICH) {
             throw new ValidationException("The Embeded object type must be 'rich' when used in a webhook.");

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Corbocal\DiscordApi\Client;
 
 use Corbocal\DiscordApi\Client\Endpoints\WebhooksEnpointsInterface;
-use Corbocal\DiscordApi\Resources\Webhook\ExecuteWebhookDto;
+use Corbocal\DiscordApi\Resources\Webhook\ExecutableWebhook;
 use GuzzleHttp\Client as HttpClient;
 
 class WebhookClient extends AbstractClient implements WebhooksEnpointsInterface
@@ -21,7 +21,7 @@ class WebhookClient extends AbstractClient implements WebhooksEnpointsInterface
     }
 
     public function execute(
-        ExecuteWebhookDto $resource,
+        ExecutableWebhook $resource,
         ?bool $wait = null,
         ?string $threadId = null,
         ?bool $withComponents = null

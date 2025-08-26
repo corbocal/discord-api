@@ -11,9 +11,9 @@ As mentioned in the Discord API documentation : "Webhooks are a low-effort way t
 Hence webhooks are being treated first :D
 
 ```php
-$resource = new ExecuteWebhookDto();
+$resource = new ExecuteWebhook();
 $resource->withContent("This is some impactful content");
-$embed = new EmbedDTO(
+$embed = new Embed(
             "An important message",
             EmbedTypeEnums::RICH,
             "I'm testing stuff",
@@ -21,7 +21,7 @@ $embed = new EmbedDTO(
             new DateTimeImmutable("now"),
             '#A1B'
         );
-$embed->addField(new FieldDto("Some stuff happened", "The worst person in the world made a correct statement."));
+$embed->addField(new Field("Some stuff happened", "The worst person in the world made a correct statement."));
 $resource->addEmbed($embed);
 $resource->getLastEmbed()->addField("Breaking news!", "Nothing happened!")
 
