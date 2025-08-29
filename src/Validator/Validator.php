@@ -15,7 +15,7 @@ use Corbocal\DiscordApi\Resources\ResourceInterface;
 class Validator
 {
     public const string PATTERN_SNOWFLAKE = "/[0-9]{18+}/";
-    public const string PATTERN_HEXA_COLOR = "/^#?[0-9A-F]{3,6}$/";
+    public const string PATTERN_HEXA_COLOR = "/^#?[0-9A-F]{6}$/";
 
     public const string PATTERN_WEBHOOK = "/^https:\/\/discord.com\/api\/webhooks\/[0-9]{9,19}\/[a-zA-Z0-9\_\-]{68,100}$/";
 
