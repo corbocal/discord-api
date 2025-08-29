@@ -56,7 +56,7 @@ class ResourceCollection implements IteratorAggregate, Countable, Traversable
 
     public function count(): int
     {
-        return count($this->storage);
+        return isset($this->storage) ? count($this->storage) : 0;
     }
 
     /**

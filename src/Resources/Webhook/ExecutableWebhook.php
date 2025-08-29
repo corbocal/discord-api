@@ -115,12 +115,12 @@ class ExecutableWebhook extends AbstractResourceFiles implements WebhookResource
         return $this;
     }
 
-    // public function withPoll(Poll $poll): self
-    // {
-    //     $this->poll = $poll;
+    public function withPoll(Poll $poll): self
+    {
+        $this->poll = $poll;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     // public function addComponent(string $component): self
     // {

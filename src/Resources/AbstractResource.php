@@ -32,6 +32,8 @@ abstract class AbstractResource implements ResourceInterface
                     $result[$k] = $value->toArray();
                 } elseif ($value instanceof BackedEnum) {
                     $result[$k] = $value->value;
+                } elseif ($value instanceof AbstractResource) {
+                    $result[$k] = $value->toArray();
                 } else {
                     $result[$k] = $value;
                 }

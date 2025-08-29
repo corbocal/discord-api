@@ -10,6 +10,7 @@ use Corbocal\DiscordApi\Resources\Common\Embed;
 use Corbocal\DiscordApi\Resources\Common\Field;
 use Corbocal\DiscordApi\Resources\Common\File;
 use Corbocal\DiscordApi\Resources\Enums\EmbedTypeEnums;
+use Corbocal\DiscordApi\Resources\Poll\PollAnswer;
 use Corbocal\DiscordApi\Resources\ResourceInterface;
 
 class Validator
@@ -22,10 +23,18 @@ class Validator
     public const int EMBED_QTY = 10;
     public const int FILES_QTY = 10;
     public const int WEBHOOK_NAME_LENGTH = 80;
+    public const int BASE_TEXT_LENGTH = 2000;
+
+    public const int FOOTER_TEXT_MAX_LENGTH = 2048;
 
     public const int FIELD_NAME_LENGTH = 256;
     public const int FIELD_VALUE_LENGTH = 1024;
     public const int FIELD_QTY = 25;
+
+    public const int POLL_QUESTION_TEXT_MAX_LENGTH = 300;
+    public const int POLL_ANSWER_TEXT_MAX_LENGTH = 55;
+    public const int POLL_MAX_ANSWERS = 10;
+    public const int POLL_MAX_DURATION = 768; // hours (32 days)
 
     public static function snowflake(string|int $snowflake): void
     {
@@ -56,7 +65,7 @@ class Validator
         }
 
         if (strlen($name) > self::WEBHOOK_NAME_LENGTH) {
-            throw new ValidationException("The webhook name length must be " . self::WEBHOOK_NAME_LENGTH . " max.");
+            throw new ValidationException("The webhook name length must be " . self::WEBHOOK_NAME_LENGTH . " chars max.");
         }
     }
 
@@ -68,6 +77,13 @@ class Validator
 
         if (!preg_match(self::PATTERN_HEXA_COLOR, $color)) {
             throw new ValidationException("The color does not match the hexadecimal color pattern.");
+        }
+    }
+
+    public static function baseTextLength(string $text): void
+    {
+        if (strlen($text) > self::BASE_TEXT_LENGTH) {
+            throw new ValidationException("The text length must be " . self::BASE_TEXT_LENGTH . " chars max.");
         }
     }
 
@@ -153,6 +169,56 @@ class Validator
         }
         if ($fields->count() > self::FIELD_QTY) {
             throw new ValidationException("The embeded fields number cannot be higher than " . self::FIELD_QTY . ".");
+        }
+    }
+
+    public static function footerTextMaxValue(string $text): void
+    {
+        if (strlen($text) > self::FOOTER_TEXT_MAX_LENGTH) {
+            throw new ValidationException("The footer text max length is too long (" . self::FOOTER_TEXT_MAX_LENGTH . " chars max.).");
+        }
+    }
+
+    public static function pollQuestionTextMaxLength(string $text): void
+    {
+        if (strlen($text) > self::POLL_QUESTION_TEXT_MAX_LENGTH) {
+            throw new ValidationException("The poll question text is too long (" . self::POLL_QUESTION_TEXT_MAX_LENGTH . " chars max.).");
+        }
+    }
+
+    public static function pollAnswerTextMaxLength(string $text): void
+    {
+        if (strlen($text) > self::POLL_ANSWER_TEXT_MAX_LENGTH) {
+            throw new ValidationException("The poll answer text is too long (" . self::POLL_ANSWER_TEXT_MAX_LENGTH . " chars max.).");
+        }
+    }
+
+    /**
+     * @param ?ResourceCollection<int, PollAnswer> $answers
+     *
+     * @throws ValidationException
+     *
+     * @return void
+     */
+    public static function pollMaxAnswerNumber(?ResourceCollection $answers): void
+    {
+        if ($answers === null) {
+            return;
+        }
+
+        if ($answers->count() > self::POLL_MAX_ANSWERS) {
+            throw new ValidationException("The number of poll answers cannot be higher than " . self::POLL_MAX_ANSWERS . ".");
+        }
+    }
+
+    public static function pollDuration(?int $duration): void
+    {
+        if ($duration === null) {
+            return;
+        }
+
+        if ($duration < 1 || $duration > self::POLL_MAX_DURATION) {
+            throw new ValidationException("The poll duration must be between 1 and " . self::POLL_MAX_DURATION . " hours (32 days).");
         }
     }
 }
