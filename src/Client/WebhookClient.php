@@ -24,7 +24,7 @@ class WebhookClient extends AbstractClient implements WebhooksEnpointsInterface
         ExecutableWebhook $resource,
         ?bool $wait = null,
         ?string $threadId = null,
-        ?bool $withComponents = null
+        ?bool $withComponents = null,
     ): void {
         $resource->check();
         $uri = self::WEBHOOKS . "/" . $this->webhookId . "/" . $this->webhookToken;

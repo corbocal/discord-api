@@ -11,13 +11,11 @@ use Corbocal\DiscordApi\Resources\Common\Field;
 use Corbocal\DiscordApi\Resources\Common\File;
 use Corbocal\DiscordApi\Resources\Enums\EmbedTypeEnums;
 use Corbocal\DiscordApi\Resources\Poll\PollAnswer;
-use Corbocal\DiscordApi\Resources\ResourceInterface;
 
 class Validator
 {
     public const string PATTERN_SNOWFLAKE = "/[0-9]{18+}/";
     public const string PATTERN_HEXA_COLOR = "/^#?[0-9A-F]{6}$/";
-
     public const string PATTERN_WEBHOOK = "/^https:\/\/discord.com\/api\/webhooks\/[0-9]{9,19}\/[a-zA-Z0-9\_\-]{68,100}$/";
 
     public const int EMBED_QTY = 10;
@@ -35,6 +33,10 @@ class Validator
     public const int POLL_ANSWER_TEXT_MAX_LENGTH = 55;
     public const int POLL_MAX_ANSWERS = 10;
     public const int POLL_MAX_DURATION = 768; // hours (32 days)
+
+    public const int CUSTOM_ID_SIZE = 100;
+
+    public const int BUTTON_LABEL_MAX_SIZE = 80;
 
     public static function snowflake(string|int $snowflake): void
     {
@@ -175,7 +177,7 @@ class Validator
     public static function footerTextMaxValue(string $text): void
     {
         if (strlen($text) > self::FOOTER_TEXT_MAX_LENGTH) {
-            throw new ValidationException("The footer text max length is too long (" . self::FOOTER_TEXT_MAX_LENGTH . " chars max.).");
+            throw new ValidationException("The footer text length is too long (" . self::FOOTER_TEXT_MAX_LENGTH . " chars max.).");
         }
     }
 
@@ -219,6 +221,20 @@ class Validator
 
         if ($duration < 1 || $duration > self::POLL_MAX_DURATION) {
             throw new ValidationException("The poll duration must be between 1 and " . self::POLL_MAX_DURATION . " hours (32 days).");
+        }
+    }
+
+    public static function buttonLabelMaxSize(string $text): void
+    {
+        if (strlen($text) > self::BUTTON_LABEL_MAX_SIZE) {
+            throw new ValidationException("The button label length is too long (" . self::BUTTON_LABEL_MAX_SIZE . " chars max.).");
+        }
+    }
+
+    public static function customIdMaxSize(string $text): void
+    {
+        if (strlen($text) > self::CUSTOM_ID_SIZE) {
+            throw new ValidationException("The custom id length is too long (" . self::CUSTOM_ID_SIZE . " chars max.).");
         }
     }
 }

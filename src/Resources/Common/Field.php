@@ -12,7 +12,7 @@ class Field extends AbstractResource
     public function __construct(
         protected string $name,
         protected string $value,
-        protected ?bool $inline = null
+        protected ?bool $inline = null,
     ) {
         Validator::fieldNameLength($name);
         Validator::fieldValueLength($value);

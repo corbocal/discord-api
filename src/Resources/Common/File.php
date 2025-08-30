@@ -11,7 +11,7 @@ class File extends AbstractResource
 {
     public function __construct(
         protected string $fullpath,
-        protected ?string $filename = null
+        protected ?string $filename = null,
     ) {
         Validator::fileExists($fullpath);
         $this->fullpath = (string) realpath($fullpath);

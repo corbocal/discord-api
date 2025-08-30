@@ -8,9 +8,9 @@ use Corbocal\DiscordApi\Exceptions\ValidationException;
 use Corbocal\DiscordApi\Resources\AbstractResourceFiles;
 use Corbocal\DiscordApi\Resources\Classes\ResourceCollection;
 use Corbocal\DiscordApi\Resources\Common\AllowedMentions;
-use Corbocal\DiscordApi\Resources\Common\Component;
 use Corbocal\DiscordApi\Resources\Common\Embed;
 use Corbocal\DiscordApi\Resources\Common\File;
+use Corbocal\DiscordApi\Resources\ComponentInterface;
 use Corbocal\DiscordApi\Resources\Poll\Poll;
 use Corbocal\DiscordApi\Validator\Validator;
 
@@ -26,7 +26,7 @@ class ExecutableWebhook extends AbstractResourceFiles implements WebhookResource
     protected ?Poll $poll = null;
 
     /**
-     * @var Component[]
+     * @var ComponentInterface[]
      */
     protected ?array $components = null;
 

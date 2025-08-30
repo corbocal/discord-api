@@ -6,6 +6,7 @@ namespace Corbocal\DiscordApi\Resources\Poll;
 
 use Corbocal\DiscordApi\Resources\AbstractResource;
 use Corbocal\DiscordApi\Resources\Classes\ResourceCollection;
+use Corbocal\DiscordApi\Resources\Emoji\PartialEmoji;
 use Corbocal\DiscordApi\Resources\Poll\PollAnswer;
 use Corbocal\DiscordApi\Resources\Poll\PollQuestion;
 use Corbocal\DiscordApi\Validator\Validator;
@@ -28,7 +29,7 @@ class Poll extends AbstractResource
 
     public function addAnswer(
         string $text,
-        ?string $emoji = null
+        // ?PartialEmoji $emoji = null,
     ): self {
         Validator::pollMaxAnswerNumber($this->answers);
         if ($this->answers === null) {
@@ -36,7 +37,7 @@ class Poll extends AbstractResource
         }
         $answer = new PollAnswer(
             count($this->answers) + 1,
-            new PollMedia($text, $emoji)
+            new PollMedia($text)
         );
         $this->answers->append($answer);
 

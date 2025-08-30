@@ -12,7 +12,7 @@ class AbstractMedia extends AbstractResource
         protected string $url,
         protected ?string $proxyUrl = null,
         protected ?int $height = null,
-        protected ?int $width = null
+        protected ?int $width = null,
     ) {
     }
 }

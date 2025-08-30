@@ -12,6 +12,6 @@ interface WebhooksEnpointsInterface
         ExecutableWebhook $webhookRessource,
         ?bool $wait = null,
         ?string $threadId = null,
-        ?bool $withComponents = null
+        ?bool $withComponents = null,
     ): void;
 }
