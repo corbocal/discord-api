@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Corbocal\DiscordApi\Resources\Common;
 
 use Corbocal\DiscordApi\Resources\AbstractResource;
-use Corbocal\DiscordApi\Resources\Classes\ResourceCollection;
-use Corbocal\DiscordApi\Resources\Common\Field;
+use Corbocal\DiscordApi\Resources\Component\Interfaces\ChildSelectInterface;
 use Corbocal\DiscordApi\Resources\Emoji\PartialEmoji;
 
-class SelectOption extends AbstractResource
+class SelectOption extends AbstractResource implements ChildSelectInterface
 {
     public function __construct(
         protected string $label,

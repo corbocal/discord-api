@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Corbocal\DiscordApi\Resources\Common;
+namespace Corbocal\DiscordApi\Resources\Component;
 
-use Corbocal\DiscordApi\Resources\ActionRowChildInterface;
 use Corbocal\DiscordApi\Resources\Classes\ResourceCollection;
-use Corbocal\DiscordApi\Resources\Common\AbstractComponent;
+use Corbocal\DiscordApi\Resources\Component\AbstractComponent;
+use Corbocal\DiscordApi\Resources\Component\Interfaces\ActionRowChildInterface;
+use Corbocal\DiscordApi\Resources\Component\Interfaces\WebhookComponentInterface;
+use Corbocal\DiscordApi\Validator\Validator;
 
-class ActionRow extends AbstractComponent
+class ActionRow extends AbstractComponent implements WebhookComponentInterface
 {
     /**
      * @var ?ResourceCollection<int, ActionRowChildInterface>
@@ -25,6 +27,7 @@ class ActionRow extends AbstractComponent
         if ($this->childs === null) {
             $this->childs = new ResourceCollection();
         }
+        Validator::actionRowChilds($this->childs, $child);
         $this->childs->append($child);
 
         return $this;

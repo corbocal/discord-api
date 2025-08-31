@@ -20,15 +20,21 @@ use Traversable;
 class ResourceCollection implements IteratorAggregate, Countable, Traversable
 {
     /**
-     * @var array<int, ResourceInterface|ResourceFilesInterface>
+     * @var array<int<0,max>, ResourceInterface|ResourceFilesInterface>
      */
     private array $storage;
+
+    /**
+     * @var int<0,max>
+     */
+    private int $counter = 0;
 
     public function __construct(ResourceInterface|ResourceFilesInterface ...$resources)
     {
         if (!empty($resources)) {
             foreach ($resources as $resource) {
                 $this->storage[] = $resource;
+                $this->counter++;
             }
         }
     }
@@ -56,7 +62,7 @@ class ResourceCollection implements IteratorAggregate, Countable, Traversable
 
     public function count(): int
     {
-        return isset($this->storage) ? count($this->storage) : 0;
+        return $this->counter;
     }
 
     /**
@@ -68,5 +74,14 @@ class ResourceCollection implements IteratorAggregate, Countable, Traversable
         $this->storage[] = $resource;
 
         return $this;
+    }
+
+    public function getLast(): ?ResourceInterface
+    {
+        if ($this->counter === 0) {
+            return null;
+        }
+
+        return $this->storage[$this->counter] ?? null;
     }
 }

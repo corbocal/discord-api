@@ -10,7 +10,8 @@ use Corbocal\DiscordApi\Resources\Classes\ResourceCollection;
 use Corbocal\DiscordApi\Resources\Common\AllowedMentions;
 use Corbocal\DiscordApi\Resources\Common\Embed;
 use Corbocal\DiscordApi\Resources\Common\File;
-use Corbocal\DiscordApi\Resources\ComponentInterface;
+use Corbocal\DiscordApi\Resources\Component\Interfaces\ComponentInterface;
+use Corbocal\DiscordApi\Resources\Component\Interfaces\WebhookComponentInterface;
 use Corbocal\DiscordApi\Resources\Poll\Poll;
 use Corbocal\DiscordApi\Validator\Validator;
 
@@ -26,9 +27,9 @@ class ExecutableWebhook extends AbstractResourceFiles implements WebhookResource
     protected ?Poll $poll = null;
 
     /**
-     * @var ComponentInterface[]
+     * @var ?ResourceCollection<int, ComponentInterface>
      */
-    protected ?array $components = null;
+    protected ?ResourceCollection $components = null;
 
     /**
      * Summary of __construct
@@ -122,17 +123,23 @@ class ExecutableWebhook extends AbstractResourceFiles implements WebhookResource
         return $this;
     }
 
-    // public function addComponent(string $component): self
-    // {
-    //     $this->components[] = $component;
+    public function addComponent(WebhookComponentInterface $component): self
+    {
+        Validator::componentsMaxNumber($this->components);
+        if ($this->components === null) {
+            $this->components = new ResourceCollection();
+        }
+        $this->components->append($component);
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
-    // public function withComponents(Component ...$components): self
-    // {
-    //     $this->components = $components;
+    public function withComponents(WebhookComponentInterface ...$components): self
+    {
+        foreach ($components as $component) {
+            $this->addComponent($component);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 }

@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Corbocal\DiscordApi\Resources\Common;
+namespace Corbocal\DiscordApi\Resources\Component;
 
-use Corbocal\DiscordApi\Resources\ActionRowChildInterface;
-use Corbocal\DiscordApi\Resources\Common\AbstractComponent;
+use Corbocal\DiscordApi\Resources\Component\AbstractComponent;
+use Corbocal\DiscordApi\Resources\Component\Interfaces\ActionRowChildInterface;
+use Corbocal\DiscordApi\Resources\Component\Interfaces\WebhookComponentInterface;
 use Corbocal\DiscordApi\Resources\Emoji\PartialEmoji;
 use Corbocal\DiscordApi\Resources\Enums\ButtonStylesEnum;
+use Corbocal\DiscordApi\Validator\Validator;
 
-class Button extends AbstractComponent implements ActionRowChildInterface
+class Button extends AbstractComponent implements ActionRowChildInterface, WebhookComponentInterface
 {
     public function __construct(
         protected ButtonStylesEnum $style,
@@ -20,6 +22,8 @@ class Button extends AbstractComponent implements ActionRowChildInterface
         protected ?bool $disabled = null,
         protected ?string $skuId = null,
     ) {
+        Validator::buttonLabelMaxSize($label ?? "");
+        Validator::customIdMaxSize($customId);
         parent::__construct(self::BUTTON);
     }
 }

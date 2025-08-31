@@ -26,10 +26,10 @@ class DiscordClient
         ]);
     }
 
-    public static function getWebhookClient(string $fullWebhook): WebhookClient
+    public static function getWebhookClient(string $fullWebhookSyntax): WebhookClient
     {
-        Validator::fullWebhook($fullWebhook);
-        $elements = explode("/", $fullWebhook);
+        Validator::fullWebhookSyntax($fullWebhookSyntax);
+        $elements = explode("/", $fullWebhookSyntax);
         return new WebhookClient(
             self::prepareHttpClient(self::BASE_URL . WebhookClient::WEBHOOKS),
             $elements[5],
