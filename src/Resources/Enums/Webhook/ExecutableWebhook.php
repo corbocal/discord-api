@@ -32,7 +32,6 @@ class ExecutableWebhook extends AbstractResourceFiles implements WebhookResource
     protected ?ResourceCollection $components = null;
 
     /**
-     * Summary of __construct
      * @param ?string $username
      * @param ?string $avatarUrl
      * @param ?AllowedMentions $allowedMentions

@@ -13,7 +13,7 @@ class Author extends AbstractResource
         protected string $name,
         protected ?string $url = null,
         protected ?string $iconUrl = null,
-        // protected ?string $proxyIconUrl = null,
+        protected ?string $proxyIconUrl = null,
     ) {
         Validator::fieldNameLength($name);
     }

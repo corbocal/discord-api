@@ -18,11 +18,12 @@ class Poll extends AbstractResource
      */
     protected ?ResourceCollection $answers = null;
 
+    protected int $layoutType = 1;
+
     public function __construct(
         protected PollQuestion $question,
         protected ?int $duration = null,
         protected ?bool $allowMultiselect = null,
-        // protected ?int $layoutType = null,
     ) {
         Validator::pollDuration($duration);
     }

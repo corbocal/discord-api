@@ -10,7 +10,6 @@ use Corbocal\DiscordApi\Resources\Enums\TypesEnums;
 class SelectDefault extends AbstractResource
 {
     /**
-     * Summary of __construct
      * @param int $id snowflake of a user, role or channel.
      * @param TypesEnums $type either "role", "user" or "channel".
      */

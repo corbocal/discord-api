@@ -8,11 +8,11 @@
     <file>tests</file>
 
     <!-- display progress -->
-    <arg value="p"/>
+    <arg value="p" />
     <!-- show sniffs in reports -->
-    <arg value="s"/>
+    <arg value="s" />
     <!-- does not cache results between runs -->
-    <arg name="no-cache"/>
+    <arg name="no-cache" />
 
     <arg name="basepath" value="." />
     <arg name="colors" />

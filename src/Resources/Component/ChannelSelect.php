@@ -19,7 +19,6 @@ class ChannelSelect extends AbstractComponent implements ChildSelectInterface, W
     protected ?ResourceCollection $defaultValues = null;
 
     /**
-     * Summary of __construct
      * @param string $customId
      * @param ?ChannelTypesEnum[] $chanelTypes
      * @param ?string $placeholder
