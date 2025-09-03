@@ -1,6 +1,6 @@
-.phpcs-cache
 .env*
-notes.md
+.phpcs-cache
 composer.lock
-/var*
-/vendor*
+notes.md
+/var/
+/vendor/

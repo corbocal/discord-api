@@ -2,27 +2,27 @@
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PSR12"
     xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/refs/heads/master/phpcs.xsd">
 
-    <description>PSR12 Standard</description>
+    <description>custom PSR12</description>
 
-    <file>src</file>
-    <file>tests</file>
+    <arg value="p" /> <!-- display progress -->
+    <arg value="s" /> <!-- show sniffs in reports -->
 
-    <!-- display progress -->
-    <arg value="p" />
-    <!-- show sniffs in reports -->
-    <arg value="s" />
-    <!-- does not cache results between runs -->
-    <arg name="no-cache" />
-
+    <arg name="no-cache" /> <!-- does not cache results between runs -->
+    <!-- <arg name="cache" value=".phpcs-cache" /> -->
     <arg name="basepath" value="." />
     <arg name="colors" />
     <arg name="extensions" value="php" />
+
     <config name="ignore_warnings_on_exit" value="true" />
 
+    <file>public</file>
+    <file>src</file>
+    <file>tests</file>
+
     <exclude-pattern>vendor/</exclude-pattern>
+    <exclude-pattern>tests/_*</exclude-pattern>
 
     <rule ref="PSR12" />
-    <!-- https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR12/ruleset.xml -->
 
     <rule ref="Generic.PHP.RequireStrictTypes" />
 
@@ -36,13 +36,22 @@
     <rule ref="Generic.PHP.ForbiddenFunctions">
         <properties>
             <property name="forbiddenFunctions" type="array">
-                <element key="phpinfo" value="null" />
-                <element key="var_dump" value="null" />
+                <element key="d" value="null" />
+                <element key="dd" value="null" />
                 <element key="debug_zval_dump" value="null" />
                 <element key="dump" value="null" />
-                <element key="dd" value="null" />
-                <element key="d" value="null" />
+                <element key="eval" value="null" />
+                <element key="exec" value="null" />
+                <element key="passthru" value="null" />
+                <element key="phpinfo" value="null" />
+                <element key="shell_exec" value="null" />
+                <element key="system" value="null" />
+                <element key="var_dump" value="null" />
             </property>
         </properties>
+    </rule>
+
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <exclude-pattern>tests/*</exclude-pattern>
     </rule>
 </ruleset>

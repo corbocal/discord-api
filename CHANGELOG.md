@@ -1,3 +1,5 @@
 # Change Log
 
-## WIP
+## x.y.z - YYYY-MM-DD
+
+First stable release.
